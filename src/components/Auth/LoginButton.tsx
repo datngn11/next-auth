@@ -8,11 +8,7 @@ interface IProps {
   asChild?: boolean;
 }
 
-export const LoginButton = ({
-  children,
-  mode = "redirect",
-  asChild,
-}: IProps) => {
+export const LoginButton = ({ children, mode = "redirect" }: IProps) => {
   const router = useRouter();
 
   const handleClick = () => {
