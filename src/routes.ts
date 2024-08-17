@@ -3,14 +3,20 @@
  * This routes are accessible without authentication
  * @type {string[]}
  */
-export const publicRoutes = ["/"];
+export const publicRoutes = ["/", "/auth/email-verification"];
 
 /**
  * Auth routes
  * This routes redirect logged in users to the settings page
  * @type {string[]}
  */
-export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];
+export const authRoutes = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/error",
+  "/auth/reset",
+  "/auth/reset-password",
+];
 
 /**
  * The prefix for the auth api routes
