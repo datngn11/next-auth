@@ -3,6 +3,7 @@ import {} from "next-auth/jwt";
 
 export type ExtendedUser = {
   role: "ADMIN" | "USER";
+  isTwoFactorEnabled: boolean;
 } & DefaultSession["user"];
 
 declare module "next-auth" {
@@ -17,5 +18,6 @@ declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
   export interface JWT {
     role: "ADMIN" | "USER";
+    isTwoFactorEnabled: boolean;
   }
 }

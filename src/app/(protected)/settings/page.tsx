@@ -1,24 +1,17 @@
-import { auth, signOut } from "src/auth";
+"use client";
 
-const Settings = async () => {
-  const session = await auth();
+import { Button } from "components/UI/button";
+import { logout } from "src/actions/logout";
+import { useCurrentUser } from "src/hooks/useCurrentUser";
+
+const Settings = () => {
+  const { user } = useCurrentUser();
 
   const handleSignOut = async () => {
-    "use server";
-
-    await signOut({
-      redirectTo: "/auth/login",
-    });
+    logout();
   };
 
-  return (
-    <div>
-      {JSON.stringify(session)}
-      <form action={handleSignOut}>
-        <button>Sign Out</button>
-      </form>
-    </div>
-  );
+  return <div className="rounded-xl  bg-white p-10">Settings</div>;
 };
 
 export default Settings;

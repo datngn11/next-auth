@@ -4,6 +4,8 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 
 import { cn } from "lib/utils";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "src/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,11 +24,15 @@ interface IProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: Readonly<IProps>) {
+export default async function RootLayout({ children }: Readonly<IProps>) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body className={cn(inter.className, poppins.className)}>
-        <main className="h-full">{children}</main>
+        <main className="h-full">
+          <SessionProvider session={session}>{children}</SessionProvider>
+        </main>
       </body>
     </html>
   );
