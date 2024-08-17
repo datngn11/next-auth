@@ -5,6 +5,7 @@ export const LoginSchema = z.object({
     message: "Required",
   }),
   password: z.string().min(1, { message: "Required" }),
+  code: z.optional(z.string()),
 });
 
 export const RegisterSchema = z.object({
