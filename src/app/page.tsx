@@ -11,7 +11,7 @@ const Home = () => {
         <p className="text-lg text-white">Auth service</p>
 
         <div>
-          <LoginButton>
+          <LoginButton mode="modal" asChild>
             <Button variant="secondary" size="lg">
               Sign in
             </Button>

@@ -4,6 +4,7 @@ import authConfig from "src/auth.config";
 import { db } from "lib/db";
 import { getUserById } from "src/data/user";
 import { getTwoFactorConfirmationByUserId } from "src/data/twoFactorConfirmation";
+import { getAccountByUserId } from "src/data/account";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   pages: {
@@ -28,7 +29,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       if (!existingUser?.emailVerified) return false;
 
-      console.log("two factor enabled", { existingUser });
       if (existingUser?.isTwoFactorEnabled) {
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
           user.id,
@@ -49,6 +49,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       return true;
     },
+
     async session({ token, session }) {
       if (session.user) {
         if (token.sub) {
@@ -60,6 +61,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         if (token.isTwoFactorEnabled) {
           session.user.isTwoFactorEnabled = token.isTwoFactorEnabled;
         }
+        if (token.email) {
+          session.user.email = token.email;
+        }
+
+        session.user.name = token.name;
+        session.user.isOAuth = token.isOAuth;
       }
       return session;
     },
@@ -67,10 +74,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (token?.sub) {
         const user = await getUserById(token.sub);
 
-        if (user) {
-          token.role = user?.role;
-          token.isTwoFactorEnabled = !!user.isTwoFactorEnabled;
-        }
+        if (!user) return token;
+
+        const existingAccount = await getAccountByUserId(user?.id);
+
+        token.isOAuth = !!existingAccount;
+        token.role = user?.role;
+        token.isTwoFactorEnabled = !!user.isTwoFactorEnabled;
+        token.name = user.name;
+        token.email = user.email;
       }
       return token;
     },
