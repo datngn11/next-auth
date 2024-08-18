@@ -6,6 +6,7 @@ import { Poppins } from "next/font/google";
 import { cn } from "lib/utils";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "src/auth";
+import { Toaster } from "components/UI/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default async function RootLayout({ children }: Readonly<IProps>) {
     <html lang="en">
       <body className={cn(inter.className, poppins.className)}>
         <main className="h-full">
+          <Toaster />
           <SessionProvider session={session}>{children}</SessionProvider>
         </main>
       </body>

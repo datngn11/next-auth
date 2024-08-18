@@ -5,5 +5,6 @@ export const useCurrentUser = () => {
 
   return {
     user: session.data?.user,
+    userRole: session.data?.user?.role,
   };
 };
